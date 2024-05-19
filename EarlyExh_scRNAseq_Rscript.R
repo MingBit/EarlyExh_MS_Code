@@ -6,7 +6,7 @@ library(openxlsx)
 
 
 #Figure 2B Volcano Plot
-genes = read.table('~/Desktop/Tmpc_Vs_Tpex_DE.csv', header = TRUE, sep = ',')
+genes = read.table('~/Desktop/Tpex_Vs_Tmpc_DE.csv', header = TRUE, sep = ',')
 
 genenames=c('IFIT1BL1', 'CCR2', 'CCR5', 'IL7R',
             'CLSPN', 'CDK1', 'FBXO5', 'PDCD1', 'CDKN2C', 'TOX', 'IKZF2',
@@ -37,10 +37,10 @@ ggplot(genes, aes(x = log2fc, y = -log10(qval))) +
 DEG = read.xlsx('~/Desktop/D28_Array2_DEGList_Chronic_Acute_raw.xlsx')
 DEG = na.omit(DEG[DEG$adj.P.Val < 0.05, ][order(DEG$logFC, decreasing = T), ])
 
-Tmpc = genes[genes$qval < 0.05 & genes$log2fc > 0.5, ]
+Tmpc = genes[genes$qval < 0.05 & genes$log2fc < -0.5, ]
 tmp = c(na.omit(match(tolower(Tmpc$gene), tolower(DEG$GeneName))))
 
-pdf('~/Desktop/Tpex_barcodeplot.pdf')
+pdf('~/Desktop/barcodeplot.pdf')
 barcodeplot(DEG$logFC, index = tmp, 
             labels = c('Acute', 'Chronic'))
 dev.off()
